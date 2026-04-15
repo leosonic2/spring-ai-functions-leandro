@@ -1,39 +1,115 @@
 # Spring AI Functions
 
-This repository contains source code examples used to support my on-line courses about the Spring Framework.
+A Spring Boot application that demonstrates how to integrate **Spring AI** with **OpenAI** to build an AI-powered REST API. This project showcases the use of Spring AI's `ChatModel` abstraction to interact with the GPT-4 model through a clean, layered architecture.
 
-## All Spring Framework Guru Courses
-### Spring Framework 6
-* [Spring Framework 6 - Beginner to Guru](https://www.udemy.com/course/spring-framework-6-beginner-to-guru/?referralCode=2BD0B7B7B6B511D699A9)
-* [Hibernate and Spring Data JPA: Beginner to Guru](https://www.udemy.com/course/hibernate-and-spring-data-jpa-beginner-to-guru/?referralCode=251C4C865302C7B1BB8F)
-* [API First Engineering with Spring Boot](https://www.udemy.com/course/api-first-engineering-with-spring-boot/?referralCode=C6DAEE7338215A2CF276)
-* [Introduction to Kafka with Spring Boot](https://www.udemy.com/course/introduction-to-kafka-with-spring-boot/?referralCode=15118530CA63AD1AF16D)
-* [Spring Security: Beginner to Guru](https://www.udemy.com/course/spring-security-core-beginner-to-guru/?referralCode=306F288EB78688C0F3BC)
+## 📚 About
 
-### Spring Framework 5
-* [Spring Framework 5: Beginner to Guru](https://www.udemy.com/testing-spring-boot-beginner-to-guru/?couponCode=GITHUB_REPO) - Get the most modern and comprehensive course available for the Spring Framework! Join over 17,200 over Guru's in an Slack community exclusive to this course! More than 5,700 students have given this 53 hour course a 5 star review!
-* [Spring Boot Microservices with Spring Cloud Beginner to Guru](https://www.udemy.com/course/spring-boot-microservices-with-spring-cloud-beginner-to-guru/?referralCode=6142D427AE53031FEF38) - Master Microservice Architectures Using Spring Boot 2 and Cloud Based Deployments with Spring Cloud and Docker
-* [Reactive Programming with Spring Framework 5](https://www.udemy.com/reactive-programming-with-spring-framework-5/?couponCode=GITHUB_REPO_SF5B2G) - Keep your skills razor sharp and take a deep dive into Reactive Programming!
-* [Testing Spring Boot: Beginner to Guru](https://www.udemy.com/testing-spring-boot-beginner-to-guru/?couponCode=GITHUB_REPO_SF5B2G) - ** Best Selling Course** Become an expert in testing Java and Spring Applications with JUnit 5, Mockito and much more!
+This project is for **educational purposes only** and is part of the hands-on material from the Udemy course:
 
-### SQL
-* [SQL Beginner to Guru: MySQL Edition](https://www.udemy.com/sql-beginner-to-guru-mysql-edition/?couponCode=GITHUB_REPO_SF5B2G) - SQL is a fundamental must have skill, which employers are looking for. Learn to master SQL on MySQL, the worlds most popular database!
+> 🎓 **[Spring AI: Beginner to Guru](https://www.udemy.com/course/spring-ai-beginner-to-guru/)**
+>
+> Created by **John Thompson** — [LinkedIn](https://www.linkedin.com/in/springguru/)
 
-### DevOps
-* [Apache Maven: Beginner to Guru](https://www.udemy.com/apache-maven-beginner-to-guru/?couponCode=GITHUB_REPO_SF5B2G) - **Best Selling Course** Take the mystery out of Apache Maven. Learn how to use Maven to build your Java and Spring Boot projects!
-* [OpenAPI: Beginner to Guru](https://www.udemy.com/course/openapi-beginner-to-guru/?referralCode=0E7F511C749013CA6AAD) - Master OpenAPI (formerly Swagger) to Create Specifications for Your APIs
-* [OpenAPI: Specification With Redocly](https://www.udemy.com/course/openapi-specification-redocly-api-documentation/?referralCode=863C443928D61D9A3831)
-* [Docker for Java Developers](https://www.udemy.com/docker-for-java-developers/?couponCode=GITHUB_REPO_SF5B2G) - Best Selling Course on Udemy! Learn how you can supercharge your development by leveraging Docker. Collaborate with other students in a Slack community exclusive to the course!
-* [Spring Framework DevOps on AWS](https://www.udemy.com/spring-core-devops-on-aws/?couponCode=GITHUB_REPO_SF5B2G) - Learn how to build and deploy Spring applications on Amazon AWS!
-* [Ready for Production with Spring Boot Actuator](https://www.udemy.com/ready-for-production-with-spring-boot-actuator/?couponCode=GITHUB_REPO_SF5B2G) - Learn how to leverage Spring Boot Actuator to monitor your applications running in production.
+All credits for the original course content and project design go to **John Thompson** ([Spring Framework Guru](https://springframework.guru)).
 
-### Web Development with Spring Framework
-* [Mastering Thymeleaf with Spring Boot](https://www.udemy.com/mastering-thymeleaf-with-spring/?couponCode=GITHUB_REPO_SF5B2G) - Once you learn Thymeleaf, you'll never want to go back to using JSPs for web development!
+## 🛠️ Tech Stack
 
+| Technology         | Version       |
+|--------------------|---------------|
+| Java               | 21            |
+| Spring Boot        | 3.3.6         |
+| Spring AI (OpenAI) | 1.0.0-M5      |
+| Lombok             | (managed)     |
+| Maven              | Wrapper (mvnw)|
 
-## Connect with Spring Framework Guru
-* Spring Framework Guru [Blog](https://springframework.guru/)
-* Subscribe to Spring Framework Guru on [YouTube](https://www.youtube.com/channel/UCrXb8NaMPQCQkT8yMP_hSkw)
-* Like Spring Framework Guru on [Facebook](https://www.facebook.com/springframeworkguru/)
-* Follow Spring Framework Guru on [Twitter](https://twitter.com/spring_guru)
-* Connect with John Thompson on [LinkedIn](http://www.linkedin.com/in/springguru)
+## 📁 Project Structure
+
+```
+src/main/java/guru/springframework/springaifunctions/
+├── SpringAiFunctionsApplication.java   # Application entry point
+├── controllers/
+│   └── QuestionController.java         # REST controller exposing /weather endpoint
+├── model/
+│   ├── Answer.java                     # Response record
+│   └── Question.java                   # Request record
+└── services/
+    ├── OpenAIService.java              # Service interface
+    └── OpenAIServiceImpl.java          # Service implementation using ChatModel
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Java 21** or later
+- An **OpenAI API key** ([get one here](https://platform.openai.com/api-keys))
+
+### Running the Application
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/leosonic2/spring-ai-functions-leandro.git
+   cd spring-ai-functions
+   ```
+
+2. **Set your OpenAI API key** as an environment variable:
+
+   ```bash
+   # Linux / macOS
+   export OPENAI_API_KEY=your-api-key
+
+   # Windows (PowerShell)
+   $env:OPENAI_API_KEY="your-api-key"
+   ```
+
+3. **Build and run:**
+
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+
+   On Windows:
+
+   ```powershell
+   .\mvnw.cmd spring-boot:run
+   ```
+
+The application starts on **http://localhost:8080** by default.
+
+### Example Request
+
+```bash
+curl -X POST http://localhost:8080/weather \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is the weather like in London?"}'
+```
+
+**Response:**
+
+```json
+{
+  "answer": "..."
+}
+```
+
+## ⚙️ Configuration
+
+The application is configured via `src/main/resources/application.yaml`:
+
+```yaml
+spring:
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4
+```
+
+You can change the model (e.g., `gpt-3.5-turbo`, `gpt-4o`) by updating the `model` property.
+
+## 📝 License
+
+This project is intended for educational use as part of the [Spring AI: Beginner to Guru](https://www.udemy.com/course/spring-ai-beginner-to-guru/) course by **John Thompson**.
+
