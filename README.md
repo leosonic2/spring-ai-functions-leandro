@@ -1,115 +1,104 @@
-# Spring AI Functions
+# Spring AI Functions - Weather Service
 
-A Spring Boot application that demonstrates how to integrate **Spring AI** with **OpenAI** to build an AI-powered REST API. This project showcases the use of Spring AI's `ChatModel` abstraction to interact with the GPT-4 model through a clean, layered architecture.
+> **Educational Project** — This project is for learning purposes only and is part of the course material for [Spring AI: Beginner to Guru](https://www.udemy.com/course/spring-ai-beginner-to-guru/) on Udemy.
 
-## 📚 About
+## Credits
 
-This project is for **educational purposes only** and is part of the hands-on material from the Udemy course:
+- **Course Author:** John Thompson — [LinkedIn](https://www.linkedin.com/in/springguru/)
+- **Website:** [Spring Framework Guru](https://springframework.guru)
 
-> 🎓 **[Spring AI: Beginner to Guru](https://www.udemy.com/course/spring-ai-beginner-to-guru/)**
->
-> Created by **John Thompson** — [LinkedIn](https://www.linkedin.com/in/springguru/)
+## Overview
 
-All credits for the original course content and project design go to **John Thompson** ([Spring Framework Guru](https://springframework.guru)).
+This project demonstrates how to use **Spring AI Function Calling** with OpenAI to integrate external APIs. It exposes a REST endpoint that accepts natural language weather questions and uses OpenAI's function calling capability to fetch real-time weather data from the [API Ninjas Weather API](https://api-ninjas.com/api/weather).
 
-## 🛠️ Tech Stack
+### How It Works
 
-| Technology         | Version       |
-|--------------------|---------------|
-| Java               | 21            |
-| Spring Boot        | 3.3.6         |
-| Spring AI (OpenAI) | 1.0.0-M5      |
-| Lombok             | (managed)     |
-| Maven              | Wrapper (mvnw)|
+1. The user sends a natural language question (e.g., *"What's the weather in London?"*) via a POST request.
+2. Spring AI forwards the question to OpenAI.
+3. OpenAI determines that it needs weather data and triggers the `CurrentWeather` function callback.
+4. The `WeatherServiceFunction` calls the API Ninjas Weather API and returns the result.
+5. OpenAI formats the weather data into a human-readable response.
 
-## 📁 Project Structure
+## Tech Stack
 
+- **Java 21+**
+- **Spring Boot 3.x**
+- **Spring AI 1.0.0-M5** (OpenAI)
+- **API Ninjas Weather API**
+- **Lombok**
+
+## Prerequisites
+
+- JDK 21 or later
+- An **OpenAI API key**
+- An **API Ninjas API key** — get one for free at [api-ninjas.com](https://api-ninjas.com/)
+
+## Configuration
+
+Set the following environment variables before running the application:
+
+| Variable              | Description                  |
+|-----------------------|------------------------------|
+| `OPENAI_API_KEY`      | Your OpenAI API key          |
+| `API_NINJAS_API_KEY`  | Your API Ninjas API key      |
+
+### Example (PowerShell)
+
+```powershell
+$env:OPENAI_API_KEY = "sk-..."
+$env:API_NINJAS_API_KEY = "your-api-ninjas-key"
 ```
-src/main/java/guru/springframework/springaifunctions/
-├── SpringAiFunctionsApplication.java   # Application entry point
-├── controllers/
-│   └── QuestionController.java         # REST controller exposing /weather endpoint
-├── model/
-│   ├── Answer.java                     # Response record
-│   └── Question.java                   # Request record
-└── services/
-    ├── OpenAIService.java              # Service interface
-    └── OpenAIServiceImpl.java          # Service implementation using ChatModel
+
+### Example (Bash)
+
+```bash
+export OPENAI_API_KEY="sk-..."
+export API_NINJAS_API_KEY="your-api-ninjas-key"
 ```
 
-## 🚀 Getting Started
+## Running the Application
 
-### Prerequisites
+```bash
+./mvnw spring-boot:run
+```
 
-- **Java 21** or later
-- An **OpenAI API key** ([get one here](https://platform.openai.com/api-keys))
+## Usage
 
-### Running the Application
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/leosonic2/spring-ai-functions-leandro.git
-   cd spring-ai-functions
-   ```
-
-2. **Set your OpenAI API key** as an environment variable:
-
-   ```bash
-   # Linux / macOS
-   export OPENAI_API_KEY=your-api-key
-
-   # Windows (PowerShell)
-   $env:OPENAI_API_KEY="your-api-key"
-   ```
-
-3. **Build and run:**
-
-   ```bash
-   ./mvnw spring-boot:run
-   ```
-
-   On Windows:
-
-   ```powershell
-   .\mvnw.cmd spring-boot:run
-   ```
-
-The application starts on **http://localhost:8080** by default.
-
-### Example Request
+Send a POST request to `/weather`:
 
 ```bash
 curl -X POST http://localhost:8080/weather \
   -H "Content-Type: application/json" \
-  -d '{"question": "What is the weather like in London?"}'
+  -d '{"question": "What is the current weather in Tokyo, Japan?"}'
 ```
 
-**Response:**
+### Example Response
 
 ```json
 {
-  "answer": "..."
+  "answer": "The current weather in Tokyo, Japan is 18°C with 65% humidity and partly cloudy skies."
 }
 ```
 
-## ⚙️ Configuration
+## Project Structure
 
-The application is configured via `src/main/resources/application.yaml`:
-
-```yaml
-spring:
-  ai:
-    openai:
-      api-key: ${OPENAI_API_KEY}
-      chat:
-        options:
-          model: gpt-4
+```
+src/main/java/guru/springframework/springaifunctions/
+├── SpringAiFunctionsApplication.java   # Main application entry point
+├── controllers/
+│   └── QuestionController.java         # REST controller for /weather endpoint
+├── functions/
+│   └── WeatherServiceFunction.java     # Function calling API Ninjas Weather API
+├── model/
+│   ├── Answer.java                     # Response model
+│   ├── Question.java                   # Request model
+│   ├── WeatherRequest.java             # Weather API request DTO
+│   └── WeatherResponse.java            # Weather API response DTO
+└── services/
+    ├── OpenAIService.java              # Service interface
+    └── OpenAIServiceImpl.java          # Service implementation with function callbacks
 ```
 
-You can change the model (e.g., `gpt-3.5-turbo`, `gpt-4o`) by updating the `model` property.
+## License
 
-## 📝 License
-
-This project is intended for educational use as part of the [Spring AI: Beginner to Guru](https://www.udemy.com/course/spring-ai-beginner-to-guru/) course by **John Thompson**.
-
+This project is for educational purposes only.
