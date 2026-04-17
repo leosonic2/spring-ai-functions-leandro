@@ -1,11 +1,22 @@
 package guru.springframework.springaifunctions.services;
 
 
+import guru.springframework.springaifunctions.functions.WeatherServiceFunction;
 import guru.springframework.springaifunctions.model.Answer;
+import guru.springframework.springaifunctions.model.WeatherRequest;
 import guru.springframework.springaifunctions.model.Question;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.model.function.FunctionCallback;
+import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatOptions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by jt, Spring Framework Guru.
@@ -14,10 +25,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenAIServiceImpl implements OpenAIService {
 
-    final ChatModel chatModel;
+    @Value("${api-ninjas.api-key}")
+    private String apiNinjasKey;
+
+
+    final OpenAiChatModel openAiChatModel;
+
 
     @Override
     public Answer getAnswer(Question question) {
-       return new Answer("to-do implement me!");
+        OpenAiChatOptions promptOptions = OpenAiChatOptions.builder()
+                .functionCallbacks(List.of(FunctionCallback.builder()
+                        .function("CurrentWeather", new WeatherServiceFunction(apiNinjasKey))
+                        .description("Get the current weather for a location")
+                        .inputType(WeatherRequest.class)
+                        .build()))
+                .build();
+
+        Message userMessage = new PromptTemplate(question.question()).createMessage();
+
+        ChatResponse response = openAiChatModel.call(new Prompt(List.of(userMessage),promptOptions));
+
+        return new Answer(response.getResult().getOutput().getContent());
     }
 }

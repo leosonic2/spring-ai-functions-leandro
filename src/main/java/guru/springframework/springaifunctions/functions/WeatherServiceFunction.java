@@ -3,7 +3,6 @@ package guru.springframework.springaifunctions.functions;
 import guru.springframework.springaifunctions.model.WeatherRequest;
 import guru.springframework.springaifunctions.model.WeatherResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestClient;
 
 import java.util.function.Function;
@@ -14,7 +13,7 @@ public class WeatherServiceFunction implements Function<WeatherRequest, WeatherR
 
     private final String apiNinjasKey;
 
-    public WeatherServiceFunction(@Value("${api-ninjas.api-key}") String apiNinjasKey) {
+    public WeatherServiceFunction(String apiNinjasKey) {
         this.apiNinjasKey = apiNinjasKey;
     }
 
