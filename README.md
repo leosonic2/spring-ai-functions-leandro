@@ -17,7 +17,7 @@ This project demonstrates how to use **Spring AI Function Calling** with OpenAI 
 2. Spring AI forwards the question to OpenAI.
 3. OpenAI determines that it needs weather data and triggers the `CurrentWeather` function callback.
 4. The `WeatherServiceFunction` calls the API Ninjas Weather API and returns the result.
-5. OpenAI formats the weather data into a human-readable response.
+5. OpenAI returns the weather data as a structured JSON object matching the `WeatherResponse` schema.
 
 ## Tech Stack
 
@@ -76,9 +76,35 @@ curl -X POST http://localhost:8080/weather \
 
 ```json
 {
-  "answer": "The current weather in Tokyo, Japan is 18°C with 65% humidity and partly cloudy skies."
+  "weatherResponse": {
+    "temp": 23,
+    "humidity": 71,
+    "sunset": 1776460117,
+    "sunrise": 1776414677,
+    "wind_speed": 8.24,
+    "wind_degrees": 72,
+    "min_temp": 23,
+    "cloud_pct": 79,
+    "feels_like": 23,
+    "max_temp": 23
+  }
 }
 ```
+
+### Response Fields
+
+| Field          | Type    | Description                         |
+|----------------|---------|-------------------------------------|
+| `temp`         | Integer | Current temperature in Celsius      |
+| `feels_like`   | Integer | "Feels like" temperature in Celsius |
+| `min_temp`     | Integer | Minimum temperature in Celsius      |
+| `max_temp`     | Integer | Maximum temperature in Celsius      |
+| `humidity`     | Integer | Current humidity (%)                |
+| `cloud_pct`    | Integer | Cloud coverage percentage           |
+| `wind_speed`   | Decimal | Wind speed in KM/H                  |
+| `wind_degrees` | Integer | Wind direction in degrees           |
+| `sunrise`      | Integer | Sunrise time (GMT epoch)            |
+| `sunset`       | Integer | Sunset time (GMT epoch)             |
 
 ## Project Structure
 
